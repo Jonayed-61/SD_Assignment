@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './assets/styles/globals.css';
+import './assets/styles/theme.css';
+import './assets/styles/animations.css';
+import AuthorPage from './pages/AuthorPage.js';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  return React.createElement(
+    'div',
+    { className: "app" },
+    React.createElement(
+      'div',
+      { className: "container" },
+      React.createElement(AuthorPage, null)
+    )
   );
 }
 
