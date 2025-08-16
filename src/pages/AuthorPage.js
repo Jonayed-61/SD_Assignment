@@ -9,7 +9,11 @@ import authorImage from '../assets/image.jpg';
 const AuthorPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [userReactions, setUserReactions] = useState({}); // Track user reactions
   
+  // Mock user ID - in a real app, this would come from authentication
+  const currentUserId = 'user123';
+
   const author = {
     name: 'Jonayed Rifat',
     image: authorImage,
@@ -27,6 +31,24 @@ const AuthorPage = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, [currentPage]);
+
+  const handleReaction = (articleId, reactionType) => {
+    setUserReactions(prev => {
+      // If user already reacted to this article
+      if (prev[articleId]) {
+        // If clicking the same reaction, remove it (toggle)
+        if (prev[articleId] === reactionType) {
+          const newReactions = {...prev};
+          delete newReactions[articleId];
+          return newReactions;
+        }
+        // Otherwise, update to new reaction
+        return {...prev, [articleId]: reactionType};
+      }
+      // Add new reaction
+      return {...prev, [articleId]: reactionType};
+    });
+  };
 
   const generateDummyArticles = () => {
     const articles = [];
@@ -115,6 +137,8 @@ const AuthorPage = () => {
                 excerpt={article.excerpt}
                 date={article.date}
                 reactions={article.reactions}
+                userReaction={userReactions[article.id]} // Pass the user's current reaction
+                onReaction={(reactionType) => handleReaction(article.id, reactionType)}
               />
             ))}
           </motion.div>
