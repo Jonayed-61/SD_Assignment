@@ -1,6 +1,6 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import './ReactionButton.css';
-import React from 'react';
 
 const ReactionButton = ({ reaction, count, active, onClick }) => {
   const emojis = {
@@ -29,16 +29,22 @@ const ReactionButton = ({ reaction, count, active, onClick }) => {
       {
         className: "emoji",
         animate: active ? {
-          scale: [1, 1.2, 1],
-          rotate: [0, 10, -10, 0]
+          scale: [1, 1.3, 1],
+          rotate: [0, -10, 10, 0]
         } : {},
-        transition: { duration: 0.6 }
+        transition: { duration: 0.4 }
       },
       emojis[reaction]
     ),
     React.createElement(
-      'span',
-      { className: "count" },
+      motion.span,
+      {
+        className: "count",
+        key: count, // This helps animate count changes
+        initial: { scale: 1.5, y: -5 },
+        animate: { scale: 1, y: 0 },
+        transition: { duration: 0.2 }
+      },
       count
     )
   );

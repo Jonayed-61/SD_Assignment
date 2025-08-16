@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import React from 'react';
 import AuthorProfile from '../components/AuthorProfile/AuthorProfile';
 import ArticleCard from '../components/ArticleCard/ArticleCard';
 import Pagination from '../components/Pagination/Pagination';
 import ThemeToggle from '../components/ThemeToggle/ThemeToggle';
+import authorImage from '../assets/image.jpg';
 
 const AuthorPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   
   const author = {
-    name: 'Jane Doe',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
+    name: 'Jonayed Rifat',
+    image: authorImage,
     bio: 'Technology writer and software developer with a passion for making complex topics accessible to everyone. Author of several books on web development and regular speaker at tech conferences worldwide.',
     stats: {
       articles: 42,
@@ -70,77 +70,69 @@ const AuthorPage = () => {
   const totalArticles = 23;
   const totalPages = Math.ceil(totalArticles / 5);
 
-  return React.createElement(
-    'div',
-    { className: "author-page" },
-    React.createElement(
-      'header',
-      { className: "page-header" },
-      React.createElement(
-        motion.h1,
-        {
-          initial: { opacity: 0, y: -20 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5 },
-          className: "page-title"
-        },
-        'Author Profile'
-      ),
-      React.createElement(ThemeToggle, null)
-    ),
-    !isLoading ? [
-      React.createElement(AuthorProfile, {
-        key: 'profile',
-        name: author.name,
-        image: author.image,
-        bio: author.bio,
-        stats: author.stats
-      }),
-      React.createElement(
-        motion.h2,
-        {
-          key: 'title',
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { delay: 0.2 },
-          className: "section-title"
-        },
-        'Recent Articles'
-      ),
-      React.createElement(
-        motion.div,
-        {
-          key: 'articles',
-          className: "articles-list",
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { delay: 0.3 }
-        },
-        articles.map(article => React.createElement(
-          ArticleCard,
-          {
-            key: article.id,
-            title: article.title,
-            excerpt: article.excerpt,
-            date: article.date,
-            reactions: article.reactions
-          }
-        ))
-      ),
-      React.createElement(Pagination, {
-        key: 'pagination',
-        currentPage: currentPage,
-        totalPages: totalPages,
-        onPageChange: (page) => {
-          setIsLoading(true);
-          setCurrentPage(page);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      })
-    ] : React.createElement(
-      'div',
-      { key: 'loading', className: "loading-skeletons" }
-    )
+  return (
+    <div className="author-page">
+      <header className="page-header">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="page-title"
+        >
+          Author Profile
+        </motion.h1>
+        <ThemeToggle />
+      </header>
+
+      {!isLoading ? (
+        <>
+          <AuthorProfile
+            name={author.name}
+            image={author.image}
+            bio={author.bio}
+            stats={author.stats}
+          />
+          
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="section-title"
+          >
+            Recent Articles
+          </motion.h2>
+          
+          <motion.div
+            className="articles-list"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            {articles.map(article => (
+              <ArticleCard
+                key={article.id}
+                title={article.title}
+                excerpt={article.excerpt}
+                date={article.date}
+                reactions={article.reactions}
+              />
+            ))}
+          </motion.div>
+          
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => {
+              setIsLoading(true);
+              setCurrentPage(page);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        </>
+      ) : (
+        <div className="loading-skeletons" />
+      )}
+    </div>
   );
 };
 

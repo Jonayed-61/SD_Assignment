@@ -1,0 +1,72 @@
+.theme-toggle {
+  --toggle-width: 60px;
+  --toggle-height: 30px;
+  --handle-size: 24px;
+  --icon-size: 16px;
+  --padding: 3px;
+
+  position: relative;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  border-radius: calc(var(--toggle-height) / 2);
+  background: var(--bg-tertiary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--padding);
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px; /* Add some padding if needed */
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.toggle-handle {
+  position: absolute;
+  width: var(--handle-size);
+  height: var(--handle-size);
+  border-radius: 50%;
+  background: var(--accent-primary);
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle.light .toggle-handle {
+  left: var(--padding);
+}
+
+.theme-toggle.dark .toggle-handle {
+  left: calc(100% - var(--handle-size) - var(--padding));
+}
+
+.sun, .moon {
+  font-size: var(--icon-size);
+  width: calc(var(--toggle-height) - (var(--padding) * 2));
+  height: calc(var(--toggle-height) - (var(--padding) * 2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.theme-toggle.light .moon {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.theme-toggle.dark .sun {
+  opacity: 0;
+  transform: translateX(-20px);
+}
